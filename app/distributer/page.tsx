@@ -7,6 +7,7 @@ const Distributer = () => {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [contact, setContact] = useState("");
+  const [gst, setGst] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
@@ -26,6 +27,7 @@ const Distributer = () => {
     formData.append("name", name);
     formData.append("company", company);
     formData.append("contact", contact);
+    formData.append("gst", gst);
 
     try {
       const response = await fetch("/api/distributor", {
@@ -66,6 +68,7 @@ const Distributer = () => {
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Distributor Name" className="border p-2 w-full" />
                 <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company Name" className="border p-2 w-full" />
                 <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="Contact Number" className="border p-2 w-full" />
+                <input type="text" value={gst} onChange={(e) => setGst(e.target.value)} placeholder="GST Number" className="border p-2 w-full" />
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Add Distributor</button>
             </form>
         </div>
