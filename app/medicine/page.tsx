@@ -38,6 +38,7 @@ export default function Medicine() {
   
         const a = document.createElement('a');
         a.href = url;
+        
         const timeStamp = new Date();  
         const formattedTime = `${timeStamp.getHours()}:${timeStamp.getMinutes()}:${timeStamp.getSeconds()}`;
         a.download = `${file.name.split(".")[0]} ${timeStamp.getDate()}-${timeStamp.getMonth() + 1}-${timeStamp.getFullYear()} ${formattedTime}.xlsx`;        

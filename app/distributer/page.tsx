@@ -38,9 +38,14 @@ const Distributer = () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "updated_distributors.xlsx";
+        const timeStamp = new Date();
+        const formattedTime = `${timeStamp.getHours()}:${timeStamp.getMinutes()}:${timeStamp.getSeconds()}`;
+        a.download = `${file.name.split(".")[0]} ${timeStamp.getDate()}-${timeStamp.getMonth()+1}-${timeStamp.getFullYear()} ${formattedTime}.xlsx`;
+        document.body.appendChild(a);
         a.click();
-        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        // a.click();
+        // window.URL.revokeObjectURL(url);
         alert("Distributor added successfully!");
       } else {
         const errorData = await response.json();
