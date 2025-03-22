@@ -9,6 +9,8 @@ export async function POST(req: NextRequest) {
     const company = formData.get('company') as string;
     const contact = formData.get('contact') as string;
     const gst = formData.get('gst') as string;
+    const email = formData.get('email') as string;
+    const website = formData.get('website') as string;
 
     if (!file) return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
 
@@ -34,7 +36,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Append new distributor data
-    data.push({ Name: name, Company: company, Contact: contact, GST: gst });
+    data.push({ Name: name, Company: company, Contact: contact, GST: gst, Email:email, Website: website });
 
     // Convert back to worksheet & update workbook
     const updatedWorksheet = XLSX.utils.json_to_sheet(data);
