@@ -18,19 +18,19 @@ export default function UploadPage() {
       const workbook = XLSX.read(fileBuffer, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
       const sheetName1 = workbook.SheetNames[1];
       const worksheet1 = workbook.Sheets[sheetName1];
-      const jsonData1 = XLSX.utils.sheet_to_json(worksheet1);
+      const jsonData1: any[] = XLSX.utils.sheet_to_json(worksheet1);
       const sheetName2 = workbook.SheetNames[2];
       const worksheet2 = workbook.Sheets[sheetName2];
-      const jsonData2 = XLSX.utils.sheet_to_json(worksheet2);
+      const jsonData2: any[] = XLSX.utils.sheet_to_json(worksheet2);
       const sheetName3 = workbook.SheetNames[3];
       const worksheet3 = workbook.Sheets[sheetName3];
-      const jsonData3 = XLSX.utils.sheet_to_json(worksheet3);
+      const jsonData3: any[] = XLSX.utils.sheet_to_json(worksheet3);
       const sheetName4 = workbook.SheetNames[4];
       const worksheet4 = workbook.Sheets[sheetName4];
-      const jsonData4 = XLSX.utils.sheet_to_json(worksheet4);
+      const jsonData4: any[] = XLSX.utils.sheet_to_json(worksheet4);
       const finalJsonData = {
         medicine: jsonData,
         distributor: jsonData1,
@@ -40,7 +40,7 @@ export default function UploadPage() {
       }
       dispatch(setExcelData(finalJsonData));
       console.log("first row", jsonData[0]);
-      router.push("home");
+      router.push("home")
     } else {
       setError("Please upload a valid Excel file (.xlsx)");
     }
