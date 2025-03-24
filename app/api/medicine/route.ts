@@ -3,60 +3,50 @@ import * as XLSX from 'xlsx';
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get('file') as File;
-    const name = formData.get('name') as string;
-    const maker = formData.get('maker') as string;
-    const salt = formData.get('salt') as string;
+    const { updatedData, name, maker, salt } = await req.json();
 
-    if (!file) return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+    console.log("Received Data:", updatedData);
+    console.log("New Medicine Entry:", { name, maker, salt });
 
-    // Read uploaded file
-    const fileBuffer = await file.arrayBuffer();
-    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    // const data = {
-    //   medicine:[
-    //     {
-    //     },
-    //     {
-    //     },
-    //     {
-    //     },
-    //   ],
-    //   distributor:[
-    //     {
-        
-    //     },
-    //     {
-        
-    //     },
-    //     {
-        
-    //     },
-    //   ],
-    // }
-
-    // Convert Excel sheet to JSON
-    const data = XLSX.utils.sheet_to_json(worksheet);
-
-    // Check if the medicine name already exists
-    const isDuplicate = data.some((row: any) => {return row.Name.toLowerCase() === name.toLowerCase() && row.Maker.toLowerCase()=== maker.toLowerCase()});
-
-    if (isDuplicate) {
-      return NextResponse.json({ error: 'Medicine and maker already exists in the sheet' }, { status: 409 });
+    if (!updatedData || typeof updatedData !== 'object' || Object.keys(updatedData).length === 0) {
+      return NextResponse.json({ error: 'Invalid or empty data' }, { status: 400 });
     }
 
-    // Append new data
-    data.push({ Name: name, Maker: maker, Salt: salt });
+    const workbook = XLSX.utils.book_new();
 
-    // Convert back to worksheet & update workbook
-    const updatedWorksheet = XLSX.utils.json_to_sheet(data);
-    workbook.Sheets[sheetName] = updatedWorksheet;
+    for (const sheetName in updatedData) {
+      if (Array.isArray(updatedData[sheetName])) {
+        let sheetData = [...updatedData[sheetName]];
 
-    // Generate buffer for response
+        console.log(`Processing sheet: ${sheetName}`);
+        console.log("Existing sheet data:", sheetData);
+
+        // Fix: Convert sheet name to lowercase for comparison
+        if (sheetName.toLowerCase() === 'medicine') {
+          const isDuplicate = sheetData.some(
+            (row: any) =>
+              row.Name.toLowerCase() === name.toLowerCase() &&
+              row.Maker.toLowerCase() === maker.toLowerCase()
+          );
+
+          if (isDuplicate) {
+            return NextResponse.json(
+              { error: 'Medicine and maker already exists in the sheet' },
+              { status: 409 }
+            );
+          }
+
+          // Append new data to Medicine sheet
+          sheetData.push({ Name: name, Maker: maker, Salt: salt });
+
+          console.log("Updated Medicine sheet data:", sheetData);
+        }
+
+        const worksheet = XLSX.utils.json_to_sheet(sheetData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      }
+    }
+
     const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
 
     return new Response(buffer, {
@@ -66,10 +56,10 @@ export async function POST(req: NextRequest) {
         'Content-Disposition': 'attachment; filename="updated_data.xlsx"',
       },
     });
-
   } catch (error) {
     console.error('Error updating Excel file:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
  
