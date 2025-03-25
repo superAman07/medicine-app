@@ -21,7 +21,7 @@ export default function Medicine() {
 
     // Backend ke liye payload prepare karna
     const payload = {
-      updatedData: excelData, // Redux se JSON data
+      updatedData: excelData,  
       name,
       maker,
       salt,
