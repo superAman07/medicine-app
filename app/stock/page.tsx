@@ -4,10 +4,11 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
-    const [distributor, setDistributor] = useState('');
-    const [item, setItem] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [price, setPrice] = useState('');
+    const [medicineName, setMedicineName] = useState('');
+    const [stockQuantity, setStockQuantity] = useState('');
+    const [purchasePrice, setPurchasePrice] = useState('');
+    const [salePrice, setSalePrice] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
     const excelData = useAppSelector(selectExcelData);  
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -16,17 +17,19 @@ const PurchasePage = () => {
     if (!excelData || !excelData.purchase) {
       alert('No Purchase data found. Please upload the file first.');
       return;
-    } 
+    }
+  
     const payload = {
         updatedData: excelData,
-        distributor,
-        item,
-        quantity,
-        price
+        medicineName,
+        stockQuantity,
+        salePrice,
+        purchasePrice,
+        expiryDate
     }
 
     try {
-      const response = await fetch('/api/purchase', {
+      const response = await fetch('/api/stock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -54,39 +57,47 @@ const PurchasePage = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Update Purchase Data</h1>
+    <main className="flex flex-col stockQuantitys-center justify-center min-h-screen p-8 bg-gray-100">
+      <h1 className="text-3xl font-bold mb-4">Stocks Data</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          value={distributor}
-          placeholder="Enter Distributor Name"
-          onChange={(e) => setDistributor(e.target.value)}
-          className="border px-4 py-2 rounded-md"
-          required
-        />
-        <input
-          type="text"
-          value={item}
-          placeholder="Enter Item Name"
-          onChange={(e) => setItem(e.target.value)}
+          value={medicineName}
+          placeholder="Enter medicineName Name"
+          onChange={(e) => setMedicineName(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
         <input
           type="number"
-          value={quantity}
-          placeholder="Enter Quantity"
-          onChange={(e) => setQuantity(e.target.value)}
+          value={stockQuantity}
+          placeholder="Enter stockQuantity"
+          onChange={(e) => setStockQuantity(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
         <input
           type="number"
-          value={price}
-          placeholder="Enter Price"
-          onChange={(e) => setPrice(e.target.value)}
+          value={purchasePrice}
+          placeholder="Enter Purchase Price"
+          onChange={(e) => setPurchasePrice(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="number"
+          value={salePrice}
+          placeholder="Enter Sale Price"
+          onChange={(e) => setSalePrice(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="date"
+          value={expiryDate}
+          placeholder="Enter Expiry Date"
+          onChange={(e) => setExpiryDate(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />

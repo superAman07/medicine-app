@@ -72,7 +72,7 @@ const PurchasePage = () => {
         <input
           type="number"
           value={quantitySold}
-          placeholder="Enter quantitySold Name"
+          placeholder="Enter quantity Sold"
           onChange={(e) => setQuantitySold(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
@@ -80,7 +80,7 @@ const PurchasePage = () => {
         <input
           type="number"
           value={salePrice}
-          placeholder="Enter Quantity"
+          placeholder="Enter Sale Price"
           onChange={(e) => setSalePrice(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
@@ -88,7 +88,7 @@ const PurchasePage = () => {
         <input
           type="number"
           value={totalAmount}
-          placeholder="Enter Price"
+          placeholder="Enter total Price"
           onChange={(e) => setTotalAmount(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
@@ -96,7 +96,7 @@ const PurchasePage = () => {
         <input
           type="date"
           value={saleDate}
-          placeholder="Enter Date"
+          placeholder="Enter Sale Date"
           onChange={(e) => setSaleDate(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
