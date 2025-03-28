@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx';
 
 export async function POST(req: NextRequest) {
   try {
-    const { updatedData,medicineName, quantitySold, salePrice,totalAmount,saleDate } = await req.json();
+    const { updatedData,medicineID,medicineName, quantitySold, salePrice,totalAmount,saleDate } = await req.json();
     
     if (!updatedData || typeof updatedData !== 'object' || Object.keys(updatedData).length === 0) {
       return NextResponse.json({ error: 'Invalid or empty data' }, { status: 400 });
@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
         let sheetData = [...updatedData[sheetName]]
 
         if(sheetName.toLowerCase()=== 'sales'){
-          sheetData.push({Medicine_Name: medicineName, Quantity_Sold: quantitySold,Sale_Price: salePrice,Tatal_Amount: totalAmount,Sale_Date: saleDate})
+          const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
+          sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name: medicineName, Quantity_Sold: quantitySold,Sale_Price: salePrice,Tatal_Amount: totalAmount,Sale_Date: saleDate})
           console.log("Updated purchase sheet data:", sheetData);
         }
         const worksheet = XLSX.utils.json_to_sheet(sheetData);

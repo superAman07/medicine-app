@@ -4,9 +4,7 @@ import * as XLSX from "xlsx";
 export async function POST(req: NextRequest) {
   try {
     const { updatedData, name, company, contact, gst, email, website } = await req.json();
-
-    console.log("Received Data:", updatedData);
-    console.log("New Distributor Entry:", { name, company, contact, gst, email, website });
+ 
 
     if (!updatedData || typeof updatedData !== "object" || Object.keys(updatedData).length === 0) {
       return NextResponse.json({ error: "Invalid or empty data" }, { status: 400 });
@@ -17,9 +15,6 @@ export async function POST(req: NextRequest) {
     for (const sheetName in updatedData) {
       if (Array.isArray(updatedData[sheetName])) {
         let sheetData = [...updatedData[sheetName]];
-
-        console.log(`Processing sheet: ${sheetName}`);
-        console.log("Existing sheet data:", sheetData);
  
         if (sheetName.toLowerCase() === "distributor") {
           const isDuplicate = sheetData.some(
@@ -34,10 +29,9 @@ export async function POST(req: NextRequest) {
               { status: 409 }
             );
           }
+          const nextID =sheetData.length>0? Math.max(...sheetData.map((row:any)=>row.ID||0))+1:1;
+          sheetData.push({ ID:nextID, Name: name, Company: company, Contact: contact, GST: gst, Email: email, Website: website });
  
-          sheetData.push({ Name: name, Company: company, Contact: contact, GST: gst, Email: email, Website: website });
-
-          console.log("Updated Distributor sheet data:", sheetData);
         }
 
         const worksheet = XLSX.utils.json_to_sheet(sheetData);

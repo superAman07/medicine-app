@@ -7,6 +7,9 @@ export default function Medicine() {
   const [name, setMedName] = useState('');
   const [maker, setMakerName] = useState('');
   const [salt, setSaltName] = useState('');
+  const [category, setCategory] = useState('');
+  const [batchNo, setBatchNo] = useState('');
+  const [expiry, setExpiry] = useState('');
 
   // Redux se Excel data fetch karna
   const excelData = useAppSelector(selectExcelData);
@@ -25,6 +28,9 @@ export default function Medicine() {
       name,
       maker,
       salt,
+      category,
+      batchNo,
+      expiry,
     };
 
     try {
@@ -81,6 +87,30 @@ export default function Medicine() {
           value={salt}
           placeholder="Enter Salt Name"
           onChange={(e) => setSaltName(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="text"
+          value={category}
+          placeholder="Category"
+          onChange={(e) => setCategory(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="text"
+          value={batchNo}
+          placeholder="Batch No"
+          onChange={(e) => setBatchNo(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="date"
+          value={expiry}
+          placeholder="Expiry Date"
+          onChange={(e) => setExpiry(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />

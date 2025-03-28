@@ -3,10 +3,10 @@ import * as XLSX from 'xlsx';
 
 export async function POST(req: NextRequest) {
   try {
-    const { updatedData, name, maker, salt } = await req.json();
+    const { updatedData, name, maker, salt,category, batchNo, expiry } = await req.json();
 
     console.log("Received Data:", updatedData);
-    console.log("New Medicine Entry:", { name, maker, salt });
+    console.log("New Medicine Entry:", { name, maker, salt, category, batchNo, expiry });
 
     if (!updatedData || typeof updatedData !== 'object' || Object.keys(updatedData).length === 0) {
       return NextResponse.json({ error: 'Invalid or empty data' }, { status: 400 });
@@ -20,8 +20,7 @@ export async function POST(req: NextRequest) {
 
         console.log(`Processing sheet: ${sheetName}`);
         console.log("Existing sheet data:", sheetData);
-
-        // Fix: Convert sheet name to lowercase for comparison
+ 
         if (sheetName.toLowerCase() === 'medicine') {
           const isDuplicate = sheetData.some(
             (row: any) =>
@@ -35,9 +34,9 @@ export async function POST(req: NextRequest) {
               { status: 409 }
             );
           }
+          const nextID = sheetData.length>0? Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
 
-          // Append new data to Medicine sheet
-          sheetData.push({ Name: name, Maker: maker, Salt: salt });
+          sheetData.push({ ID: nextID ,Name: name, Maker: maker, Salt: salt, Category: category, BatchNo: batchNo, Expiry: expiry });
 
           console.log("Updated Medicine sheet data:", sheetData);
         }

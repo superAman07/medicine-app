@@ -4,6 +4,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
+    const [medicineID, setMedicineID] = useState<any>();
     const [medicineName, setMedicineName] = useState('');
     const [quantitySold, setQuantitySold] = useState('');
     const [salePrice, setSalePrice] = useState('');
@@ -21,7 +22,8 @@ const PurchasePage = () => {
   
     const payload = {
         updatedData: excelData,
-        medicineName,
+        medicineID,
+        medicineName: excelData.medicine[medicineID-1].Name,
         quantitySold,
         salePrice,
         totalAmount,
@@ -62,13 +64,21 @@ const PurchasePage = () => {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
+          type="number"
+          value={medicineID}
+          placeholder="Enter medicineName Name"
+          onChange={(e) => setMedicineID(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        {/* <input
           type="text"
           value={medicineName}
           placeholder="Enter medicineName Name"
           onChange={(e) => setMedicineName(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
-        />
+        /> */}
         <input
           type="number"
           value={quantitySold}

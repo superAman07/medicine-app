@@ -3,25 +3,20 @@ import * as XLSX from 'xlsx';
 
 export async function POST(req: NextRequest) {
   try {
-    const { updatedData,distributor,item, quantity,price } = await req.json();
+    const { updatedData,distributorID,medicineID, quantity,price, date } = await req.json();
 
     if (!updatedData || typeof updatedData !== 'object' || Object.keys(updatedData).length === 0) {
       return NextResponse.json({ error: 'Invalid or empty data' }, { status: 400 });
     }
-
-    // Create a new workbook
+ 
     const workbook = XLSX.utils.book_new();
-
-    // Loop through each sheet in the JSON data
     for (const sheetName in updatedData) {
       if (Array.isArray(updatedData[sheetName])) {
-        // const worksheet = XLSX.utils.json_to_sheet(updatedData[sheetName]);
-        // XLSX.utils.book_append_sheet(workbook, worksheet, sheetName); // Append each sheet
         let sheetData = [...updatedData[sheetName]]
 
         if(sheetName.toLowerCase()=== 'purchase'){
           const isDuplicate = sheetData.some(
-            (row: any)=> row.Distributor.toLowerCase()=== distributor.toLowerCase()   
+            (row: any)=> row.Distributor.toLowerCase()=== distributorID.toLowerCase()   
           );
           if(isDuplicate){
             return NextResponse.json(
@@ -29,15 +24,14 @@ export async function POST(req: NextRequest) {
               { status: 409 }
             );
           }
-          sheetData.push({Distributor: distributor, Item: item,Quantity: quantity,Price: price})
-          console.log("Updated purchase sheet data:", sheetData);
+          const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
+          sheetData.push({ID:nextID ,DistributorID: distributorID, MedicineID: medicineID,Quantity: quantity,Price: price,Date: date});
         }
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook,worksheet,sheetName);
       }
     }
-
-    // Generate Excel file buffer
+ 
     const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
 
     return new Response(buffer, {

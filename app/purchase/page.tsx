@@ -4,10 +4,11 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
-    const [distributor, setDistributor] = useState('');
-    const [item, setItem] = useState('');
+    const [distributorID, setDistributorID] = useState('');
+    const [medicineID, setMedicineID] = useState('');
     const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
+    const [date, setDate] = useState('');
     const excelData = useAppSelector(selectExcelData);  
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,10 +20,11 @@ const PurchasePage = () => {
     } 
     const payload = {
         updatedData: excelData,
-        distributor,
-        item,
+        distributorID,
+        medicineID,
         quantity,
-        price
+        price,
+        date
     }
 
     try {
@@ -54,23 +56,23 @@ const PurchasePage = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-gray-100">
+    <main className="flex flex-col medicineIDs-center justify-center min-h-screen p-8 bg-gray-100">
       <h1 className="text-3xl font-bold mb-4">Update Purchase Data</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type="text"
-          value={distributor}
-          placeholder="Enter Distributor Name"
-          onChange={(e) => setDistributor(e.target.value)}
+          type="number"
+          value={distributorID}
+          placeholder="Enter Distributor ID"
+          onChange={(e) => setDistributorID(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
         <input
           type="text"
-          value={item}
-          placeholder="Enter Item Name"
-          onChange={(e) => setItem(e.target.value)}
+          value={medicineID}
+          placeholder="Enter medicineID Name"
+          onChange={(e) => setMedicineID(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
@@ -87,6 +89,14 @@ const PurchasePage = () => {
           value={price}
           placeholder="Enter Price"
           onChange={(e) => setPrice(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        />
+        <input
+          type="date"
+          value={date}
+          placeholder="Enter Price"
+          onChange={(e) => setDate(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
