@@ -5,7 +5,7 @@ import { useAppSelector } from '@/lib/hooks';
 
 export default function Medicine() {
   const [name, setMedName] = useState('');
-  const [maker, setMakerName] = useState('');
+  const [distributorID, setDistributorID] = useState<any>('');
   const [salt, setSaltName] = useState('');
   const [category, setCategory] = useState('');
   const [batchNo, setBatchNo] = useState('');
@@ -24,7 +24,8 @@ export default function Medicine() {
     const payload = {
       updatedData: excelData,  
       name,
-      maker,
+      distributorID,
+      maker: excelData.distributor[distributorID-1].Company,
       salt,
       category,
       batchNo,
@@ -66,20 +67,20 @@ export default function Medicine() {
       <form onSubmit={handleSubmit} className="flex text-white flex-col gap-4">
         <input
           type="text"
+          value={distributorID}
+          placeholder="Enter Distributor ID"
+          onChange={(e) => setDistributorID(e.target.value)}
+          className="border px-4 py-2 rounded-md"
+          required
+        /> 
+        <input
+          type="text"
           value={name}
           placeholder="Enter Medicine Name"
           onChange={(e) => setMedName(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
-        />
-        <input
-          type="text"
-          value={maker}
-          placeholder="Enter Company"
-          onChange={(e) => setMakerName(e.target.value)}
-          className="border px-4 py-2 rounded-md"
-          required
-        />
+        /> 
         <input
           type="text"
           value={salt}

@@ -146,7 +146,7 @@ export default function DistributorPage() {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-center h-40 border rounded-md">
-                  <p className="text-muted-foreground">Distributor management interface will be available here</p>
+                  <p className="text-muted-foreground">No distributors to manage yet. Please add some.</p>
                 </div>
               </CardContent>
             </Card>

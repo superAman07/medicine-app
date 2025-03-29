@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
-const PurchasePage = () => {
-    const [medicineID, setMedicineID] = useState<any>();
-    const [medicineName, setMedicineName] = useState('');
-    const [quantitySold, setQuantitySold] = useState('');
+const SalesPage = () => {
+    const [medicineID, setMedicineID] = useState<any>(); 
+    const [quantitySold, setQuantitySold] = useState<any>('');
     const [salePrice, setSalePrice] = useState('');
     const [totalAmount, setTotalAmount] = useState('');
     const [saleDate, setSaleDate] = useState('');
@@ -15,13 +14,35 @@ const PurchasePage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!excelData || !excelData.purchase) {
-      alert('No Purchase data found. Please upload the file first.');
+    if (!excelData || !excelData.stock) {
+      alert('No stock data found. Please upload the file first.');
       return;
     }
-  
+    const stockItem = excelData.stock.find((item: any) => item.ID === parseInt(medicineID));
+    if (!stockItem) {
+      alert(`Medicine with ID ${medicineID} does not exist in stock.`);
+      return;
+    }
+    if (quantitySold > stockItem.Stock_Quantity) {
+      alert(`Insufficient stock. Available quantity: ${stockItem.Stock_Quantity}`);
+      return;
+    }
+   
+    const updatedStock = excelData.stock.map((item: any) => {
+      if (item.ID === parseInt(medicineID)) {
+        return {
+          ...item,
+          Stock_Quantity: item.Stock_Quantity - parseInt(quantitySold),
+        };
+      }
+      return item;
+    });
+    const updatedData = {
+      ...excelData,
+      stock: updatedStock,
+    };
     const payload = {
-        updatedData: excelData,
+        updatedData,
         medicineID,
         medicineName: excelData.medicine[medicineID-1].Name,
         quantitySold,
@@ -70,15 +91,7 @@ const PurchasePage = () => {
           onChange={(e) => setMedicineID(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
-        />
-        {/* <input
-          type="text"
-          value={medicineName}
-          placeholder="Enter medicineName Name"
-          onChange={(e) => setMedicineName(e.target.value)}
-          className="border px-4 py-2 rounded-md"
-          required
-        /> */}
+        /> 
         <input
           type="number"
           value={quantitySold}
@@ -122,4 +135,4 @@ const PurchasePage = () => {
   );
 };
 
-export default PurchasePage;
+export default SalesPage;

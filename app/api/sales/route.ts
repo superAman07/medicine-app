@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
         if(sheetName.toLowerCase()=== 'sales'){
           const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
           sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name: medicineName, Quantity_Sold: quantitySold,Sale_Price: salePrice,Tatal_Amount: totalAmount,Sale_Date: saleDate})
-          console.log("Updated purchase sheet data:", sheetData);
         }
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook,worksheet,sheetName);

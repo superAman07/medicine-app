@@ -5,17 +5,16 @@ import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
     const [medicineID, setMedicineID] = useState<any>(''); 
-    const [stockQuantity, setStockQuantity] = useState('');
+    const [stockQuantity, setStockQuantity] = useState<any>('');
     const [purchasePrice, setPurchasePrice] = useState('');
-    const [salePrice, setSalePrice] = useState('');
-    const [expiryDate, setExpiryDate] = useState('');
+    const [salePrice, setSalePrice] = useState(''); 
     const excelData = useAppSelector(selectExcelData);  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!excelData || !excelData.purchase) {
-      alert('No Purchase data found. Please upload the file first.');
+    if (!excelData || !excelData.stock) {
+      alert('No stock data found. Please upload the file first.');
       return;
     }
   
@@ -25,8 +24,7 @@ const PurchasePage = () => {
         medicineName:excelData.medicine[medicineID-1].Name,
         stockQuantity,
         salePrice,
-        purchasePrice,
-        expiryDate
+        purchasePrice 
     }
 
     try {
@@ -94,14 +92,14 @@ const PurchasePage = () => {
           className="border px-4 py-2 rounded-md"
           required
         />
-        <input
+        {/* <input
           type="date"
           value={expiryDate}
           placeholder="Enter Expiry Date"
           onChange={(e) => setExpiryDate(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
-        />
+        /> */}
         <button
           type="submit"
           className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"

@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         if(sheetName.toLowerCase()=== 'purchase'){
           const isDuplicate = sheetData.some(
-            (row: any)=> row.Distributor.toLowerCase()=== distributorID.toLowerCase()   
+            (row: any)=> row.Distributor=== distributorID   
           );
           if(isDuplicate){
             return NextResponse.json(

@@ -14,16 +14,49 @@ const PurchasePage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!excelData || !excelData.purchase) {
-      alert('No Purchase data found. Please upload the file first.');
+    if (!excelData || !excelData.stock) {
+      alert('No Stock data found. Please upload the file first.');
       return;
     } 
+    const distributor = excelData.distributor.find((item: any) => item.ID === parseInt(distributorID));
+    if (!distributor) {
+      alert(`Distributor with ID ${distributorID} does not exist.`);
+      return;
+    }
+    
+    const stockItem = excelData.stock.find((item: any) => item.ID === parseInt(medicineID));
+    let updatedStock;
+    if(stockItem){
+      updatedStock = excelData.stock.map((item: any) => {
+        if (item.ID === parseInt(medicineID)) {
+          return {
+            ...item,
+            Stock_Quantity: item.Stock_Quantity + parseInt(quantity),
+          };
+        }
+        return item;
+      });
+    }else{
+      const newStockEntry = {
+        ID: parseInt(medicineID),
+        MedicineID : medicineID,
+        Medicine_Name: excelData.medicine[medicineID - 1]?.Name || 'Unknown Medicine',
+        Stock_Quantity: quantity,
+        Purchase_Price: price,
+        Sale_Price: 0,     
+      };
+      updatedStock = [...excelData.stock, newStockEntry];
+    }
+    const updatedData = {
+      ...excelData,
+      stock: updatedStock,
+    };
     const payload = {
-        updatedData: excelData,
+        updatedData,
         distributorID,
         distributorName: excelData.distributor[distributorID-1].Name,
         medicineID,
-        medicineName: excelData.medicine[medicineID-1].Name,
+        medicineName: excelData.medicine[medicineID-1].Name || 'Unknown Medicine',
         quantity,
         price,
         date
@@ -71,9 +104,9 @@ const PurchasePage = () => {
           required
         />
         <input
-          type="text"
+          type="number"
           value={medicineID}
-          placeholder="Enter medicineID Name"
+          placeholder="Enter medicineID"
           onChange={(e) => setMedicineID(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
