@@ -4,7 +4,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
-    const [medicineID, setMedicineID] = useState('');
+    const [medicineID, setMedicineID] = useState<any>(''); 
     const [stockQuantity, setStockQuantity] = useState('');
     const [purchasePrice, setPurchasePrice] = useState('');
     const [salePrice, setSalePrice] = useState('');
@@ -22,6 +22,7 @@ const PurchasePage = () => {
     const payload = {
         updatedData: excelData,
         medicineID,
+        medicineName:excelData.medicine[medicineID-1].Name,
         stockQuantity,
         salePrice,
         purchasePrice,
@@ -72,7 +73,7 @@ const PurchasePage = () => {
         <input
           type="number"
           value={stockQuantity}
-          placeholder="Enter stockQuantity"
+          placeholder="Enter stock Quantity"
           onChange={(e) => setStockQuantity(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required

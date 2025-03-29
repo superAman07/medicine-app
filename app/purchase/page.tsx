@@ -4,8 +4,8 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 
 const PurchasePage = () => {
-    const [distributorID, setDistributorID] = useState('');
-    const [medicineID, setMedicineID] = useState('');
+    const [distributorID, setDistributorID] = useState<any>('');
+    const [medicineID, setMedicineID] = useState<any>('');
     const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
     const [date, setDate] = useState('');
@@ -21,7 +21,9 @@ const PurchasePage = () => {
     const payload = {
         updatedData: excelData,
         distributorID,
+        distributorName: excelData.distributor[distributorID-1].Name,
         medicineID,
+        medicineName: excelData.medicine[medicineID-1].Name,
         quantity,
         price,
         date

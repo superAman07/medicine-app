@@ -66,7 +66,7 @@ const PurchasePage = () => {
         <input
           type="number"
           value={medicineID}
-          placeholder="Enter medicineName Name"
+          placeholder="Enter medicine ID"
           onChange={(e) => setMedicineID(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required

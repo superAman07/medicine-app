@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx';
 
 export async function POST(req: NextRequest) {
   try {
-    const { updatedData,distributorID,medicineID, quantity,price, date } = await req.json();
+    const { updatedData,distributorID,medicineID,distributorName, medicineName ,quantity,price, date } = await req.json();
 
     if (!updatedData || typeof updatedData !== 'object' || Object.keys(updatedData).length === 0) {
       return NextResponse.json({ error: 'Invalid or empty data' }, { status: 400 });
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             );
           }
           const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
-          sheetData.push({ID:nextID ,DistributorID: distributorID, MedicineID: medicineID,Quantity: quantity,Price: price,Date: date});
+          sheetData.push({ID:nextID ,DistributorID: distributorID, MedicineID: medicineID,Distributor_Name:distributorName,Medicine_Name:medicineName,Quantity: quantity,Price: price,Date: date});
         }
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook,worksheet,sheetName);

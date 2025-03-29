@@ -11,7 +11,6 @@ export default function Medicine() {
   const [batchNo, setBatchNo] = useState('');
   const [expiry, setExpiry] = useState('');
 
-  // Redux se Excel data fetch karna
   const excelData = useAppSelector(selectExcelData);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,8 +20,7 @@ export default function Medicine() {
       alert('No Excel data found. Please upload the file first.');
       return;
     }
-
-    // Backend ke liye payload prepare karna
+ 
     const payload = {
       updatedData: excelData,  
       name,
