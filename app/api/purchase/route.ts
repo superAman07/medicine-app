@@ -27,6 +27,37 @@ export async function POST(req: NextRequest) {
           const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
           sheetData.push({ID:nextID ,DistributorID: distributorID, MedicineID: medicineID,Distributor_Name:distributorName,Medicine_Name:medicineName,Quantity: quantity,Price: price,Date: date});
         }
+
+        if (sheetName.toLowerCase() === 'stock') {
+          const stockItem = sheetData.find((item: any) => item.MedicineID === medicineID);
+
+          if (stockItem) { 
+            sheetData = sheetData.map((item: any) => {
+              if (item.MedicineID === medicineID) {
+                const newQuantity = parseInt(item.Stock_Quantity) + parseInt(quantity);
+                const weightedPrice = ((item.Stock_Quantity * item.Purchase_Price) + (quantity * price)) / newQuantity;
+
+                return {
+                  ...item,
+                  Stock_Quantity: newQuantity,
+                  Purchase_Price: weightedPrice, 
+                };
+              }
+              return item;
+            });
+          } else { 
+            const nextID = sheetData.length > 0 ? Math.max(...sheetData.map((row: any) => row.ID)) + 1 : 1;
+            sheetData.push({
+              ID: nextID,
+              MedicineID: medicineID,
+              Medicine_Name: medicineName,
+              Stock_Quantity: quantity,
+              Purchase_Price: price,
+              Sale_Price: 0,  
+            });
+          }
+        }
+
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook,worksheet,sheetName);
       }

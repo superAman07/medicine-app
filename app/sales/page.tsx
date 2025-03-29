@@ -6,8 +6,7 @@ import { selectExcelData } from '@/lib/features/pharma/pharmaSlice';
 const SalesPage = () => {
     const [medicineID, setMedicineID] = useState<any>(); 
     const [quantitySold, setQuantitySold] = useState<any>('');
-    const [salePrice, setSalePrice] = useState('');
-    const [totalAmount, setTotalAmount] = useState('');
+    const [salePrice, setSalePrice] = useState(''); 
     const [saleDate, setSaleDate] = useState('');
     const excelData = useAppSelector(selectExcelData);  
 
@@ -46,8 +45,7 @@ const SalesPage = () => {
         medicineID,
         medicineName: excelData.medicine[medicineID-1].Name,
         quantitySold,
-        salePrice,
-        totalAmount,
+        salePrice, 
         saleDate
     }
 
@@ -105,14 +103,6 @@ const SalesPage = () => {
           value={salePrice}
           placeholder="Enter Sale Price"
           onChange={(e) => setSalePrice(e.target.value)}
-          className="border px-4 py-2 rounded-md"
-          required
-        />
-        <input
-          type="number"
-          value={totalAmount}
-          placeholder="Enter total Price"
-          onChange={(e) => setTotalAmount(e.target.value)}
           className="border px-4 py-2 rounded-md"
           required
         />
