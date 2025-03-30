@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
                 return {
                   ...item,
                   Stock_Quantity: newQuantity,
-                  Purchase_Price: weightedPrice, 
+                  Purchase_Price: parseFloat(weightedPrice.toFixed(2)), 
                 };
               }
               return item;
