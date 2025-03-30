@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         if(sheetName.toLowerCase()=== 'stock'){
           const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
-          sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name:medicineName, Stock_Quantity: stockQuantity,Purchase_Price: purchasePrice,Sale_Price: salePrice })
+          sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name:medicineName, Stock_Quantity: stockQuantity,Purchase_Price: parseFloat(purchasePrice),Sale_Price: parseFloat(salePrice) })
         }
         const worksheet = XLSX.utils.json_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook,worksheet,sheetName);

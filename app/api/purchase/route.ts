@@ -51,8 +51,8 @@ export async function POST(req: NextRequest) {
               ID: nextID,
               MedicineID: medicineID,
               Medicine_Name: medicineName,
-              Stock_Quantity: quantity,
-              Purchase_Price: price,
+              Stock_Quantity: parseInt(quantity),
+              Purchase_Price: parseFloat(price),
               Sale_Price: 0,  
             });
           }
