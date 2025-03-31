@@ -18,8 +18,7 @@ export default function DistributorPage() {
     email: "",
     website: "",
   });
-
-  // Redux se Excel data fetch karna
+ 
   const excelData = useAppSelector(selectExcelData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +35,7 @@ export default function DistributorPage() {
     }
 
     const payload = {
-      updatedData: excelData, // Redux se JSON data
+      updatedData: excelData, 
       ...formData,
     };
 
@@ -145,9 +144,50 @@ export default function DistributorPage() {
                 <CardDescription>View and manage your existing distributors</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-center h-40 border rounded-md">
-                  <p className="text-muted-foreground">No distributors to manage yet. Please add some.</p>
-                </div>
+                {!excelData ? (
+                  <div className="flex items-center justify-center h-40 border rounded-md bg-gray-50">
+                    <p className="text-muted-foreground">No distributors to manage yet. Please add some.</p>
+                  </div>
+                ) : (
+                  <div className="border rounded-md overflow-x-auto"> 
+                    <div className="grid grid-cols-7 gap-2 bg-gray-100 p-3 font-medium text-sm">
+                      <div>ID</div>
+                      <div>Name</div>
+                      <div>Company</div>
+                      <div>Contact</div>
+                      <div>GST</div>
+                      <div>Email</div>
+                      <div>Website</div>
+                    </div>
+ 
+                    <div className="divide-y">
+                      {excelData.distributor.map((value, key) => (
+                        <div key={key} className="grid grid-cols-7 gap-2 p-3 hover:bg-gray-50 text-sm">
+                          <div className="truncate">{value.ID}</div>
+                          <div className="truncate">{value.Name}</div>
+                          <div className="truncate">{value.Company}</div>
+                          <div className="truncate">{value.Contact}</div>
+                          <div className="truncate">{value.GST}</div>
+                          <div className="truncate">{value.Email || "-"}</div>
+                          <div className="truncate">
+                            {value.Website ? (
+                              <a
+                                href={value.Website.startsWith("http") ? value.Website : `https://${value.Website}|| ""`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline"
+                              >
+                                {value.Website}
+                              </a>
+                            ) : (
+                              "-"
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
