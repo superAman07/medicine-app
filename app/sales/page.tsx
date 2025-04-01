@@ -27,7 +27,9 @@ const SalesPage = () => {
       alert(`Medicine with ID ${medicineID} does not exist in stock.`);
       return;
     }
-    if (quantitySold > stockItem.Stock_Quantity) {
+    console.log('Quantity Sold:', quantitySold);
+    console.log('Stock Quantity:', stockItem.Stock_Quantity);
+    if (parseInt(quantitySold) > stockItem.Stock_Quantity) {
       alert(`Insufficient stock. Available quantity: ${stockItem.Stock_Quantity}`);
       return;
     }
@@ -228,7 +230,7 @@ const SalesPage = () => {
                         <div>Sale Date</div>
                       </div>
                       <div className='divide-y'>
-                        {excelData.purchase.map((value,key)=>(
+                        {excelData.sales.map((value,key)=>(
                           <div key={key} className='grid grid-cols-6 gap-2 p-3 hover:bg-gray-50 text-sm'>
                             <div className='truncate'>{value.ID}</div> 
                             <div className='truncate'>{value.MedicineID}</div> 

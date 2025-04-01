@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         if(sheetName.toLowerCase()=== 'sales'){
           const nextID = sheetData.length>0?Math.max(...sheetData.map((row:any)=>row.ID))+1:1;
-          sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name: medicineName, Quantity_Sold: quantitySold,Sale_Price:salePrice,Sale_Date: saleDate})
+          sheetData.push({ID:nextID ,MedicineID: medicineID,Medicine_Name: medicineName, Quantity_Sold: quantitySold,Sale_Price: parseFloat(salePrice),Sale_Date: saleDate})
         }
 
         if (sheetName.toLowerCase() === 'stock') {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
               return {
                 ...item,
                 Stock_Quantity: parseInt(item.Stock_Quantity) - parseInt(quantitySold),
-                Sale_Price: parseFloat(salePrice.toFixed(2)),  
+                Sale_Price: parseFloat(salePrice),  
               };
             }
             return item;
