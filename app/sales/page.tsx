@@ -85,50 +85,6 @@ const SalesPage = () => {
   };
 
   return (
-    // <main className="flex flex-col quantitySolds-center justify-center min-h-screen p-8 bg-gray-100">
-    //   <h1 className="text-3xl font-bold mb-4">Sales Data</h1>
-
-    //   <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-    //     <input
-    //       type="number"
-    //       value={medicineID}
-    //       placeholder="Enter medicine ID"
-    //       onChange={(e) => setMedicineID(e.target.value)}
-    //       className="border px-4 py-2 rounded-md"
-    //       required
-    //     /> 
-    //     <input
-    //       type="number"
-    //       value={quantitySold}
-    //       placeholder="Enter quantity Sold"
-    //       onChange={(e) => setQuantitySold(e.target.value)}
-    //       className="border px-4 py-2 rounded-md"
-    //       required
-    //     />
-    //     <input
-    //       type="number"
-    //       value={salePrice}
-    //       placeholder="Enter Sale Price"
-    //       onChange={(e) => setSalePrice(e.target.value)}
-    //       className="border px-4 py-2 rounded-md"
-    //       required
-    //     />
-    //     <input
-    //       type="date"
-    //       value={saleDate}
-    //       placeholder="Enter Sale Date"
-    //       onChange={(e) => setSaleDate(e.target.value)}
-    //       className="border px-4 py-2 rounded-md"
-    //       required
-    //     />
-    //     <button
-    //       type="submit"
-    //       className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
-    //     >
-    //       Submit
-    //     </button>
-    //   </form>
-    // </main>
     <div className="container mx-auto py-10 px-4 md:px-6"> 
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 text-center">
