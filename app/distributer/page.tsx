@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import UploadPage from "@/components/uploadePage";
 
 export default function DistributorPage() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ export default function DistributorPage() {
     email: "",
     website: "",
   });
- 
+
   const excelData = useAppSelector(selectExcelData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +36,7 @@ export default function DistributorPage() {
     }
 
     const payload = {
-      updatedData: excelData, 
+      updatedData: excelData,
       ...formData,
     };
 
@@ -78,9 +79,14 @@ export default function DistributorPage() {
   return (
     <div className="container mx-auto py-10 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Distributor Management</h1>
-          <p className="text-muted-foreground mt-2">Add and manage your product distributors</p>
+        <div className="flex justify-around items-center mb-8">
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold tracking-tight">Distributor Management</h1>
+            <p className="text-muted-foreground mt-2">Add and manage your product distributors</p>
+          </div>
+          <div>
+            <UploadPage />
+          </div>
         </div>
 
         <Tabs defaultValue="add" className="w-full">
@@ -149,7 +155,7 @@ export default function DistributorPage() {
                     <p className="text-muted-foreground">No distributors to manage yet. Please add some.</p>
                   </div>
                 ) : (
-                  <div className="border rounded-md overflow-x-auto"> 
+                  <div className="border rounded-md overflow-x-auto">
                     <div className="grid grid-cols-7 gap-2 bg-gray-100 p-3 font-medium text-sm">
                       <div>ID</div>
                       <div>Name</div>
@@ -159,7 +165,7 @@ export default function DistributorPage() {
                       <div>Email</div>
                       <div>Website</div>
                     </div>
- 
+
                     <div className="divide-y">
                       {excelData.distributor.map((value, key) => (
                         <div key={key} className="grid grid-cols-7 gap-2 p-3 hover:bg-gray-50 text-sm">

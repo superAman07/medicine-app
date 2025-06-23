@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import UploadPage from '@/components/uploadePage';
 
 export default function Medicine() {
   const [name, setMedName] = useState('');
@@ -68,9 +69,14 @@ export default function Medicine() {
   return (
     <div className="container mx-auto py-10 px-4 md:px-6"> 
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Medicine Management</h1>
-          <p className="text-muted-foreground mt-2">Add and manage your Medicine</p>
+        <div className='flex items-center justify-around mb-8'>
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold tracking-tight">Medicine Management</h1>
+            <p className="text-muted-foreground mt-2">Add and manage your Medicine</p>
+          </div>
+          <div className=''>
+            <UploadPage/>
+          </div>
         </div>
       
         <Tabs defaultValue="add" className="w-full">
